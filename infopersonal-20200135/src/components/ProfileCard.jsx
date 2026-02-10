@@ -1,13 +1,22 @@
 import React from 'react';
 
-const ProfileCard = ({ name, email, bio, phone, website, imageUrl }) => {
+const ensureProtocol = (url = '') => {
+  if (!url) return '#';
+  return /^https?:\/\//i.test(url) ? url : `https://${url}`;
+};
+
+const ProfileCard = ({ name, email, bio, phone, website, imageUrl, linkedinUrl, githubUrl }) => {
+  const websiteUrl = ensureProtocol(website);
+  const linkedinProfile = ensureProtocol(linkedinUrl);
+  const githubProfile = ensureProtocol(githubUrl);
+
   return (
     <div className="card mb-3 shadow" style={{ maxWidth: '540px' }}>
       <div className="row g-0">
         <div className="col-md-4">
-          <img 
-            src={imageUrl} 
-            className="img-fluid rounded-start h-100" 
+          <img
+            src={imageUrl}
+            className="img-fluid rounded-start h-100"
             alt="Foto de perfil"
             style={{ objectFit: 'cover' }}
           />
@@ -27,18 +36,18 @@ const ProfileCard = ({ name, email, bio, phone, website, imageUrl }) => {
               </li>
               <li className="list-group-item">
                 <i className="bi bi-globe me-2"></i>
-                <a href={`https://${website}`} className="text-decoration-none">
+                <a href={websiteUrl} className="text-decoration-none" target="_blank" rel="noopener noreferrer">
                   {website}
                 </a>
               </li>
             </ul>
             <div className="mt-3 d-flex gap-2">
-                <a href="#" target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-sm">
-                    <i className="bi bi-linkedin me-2"></i>LinkedIn
-                </a>
-                <a href="https://github.com/pablo-menjivar" target="_blank" rel="noopener noreferrer" className="btn btn-dark btn-sm">
-                    <i className="bi bi-github me-2"></i>GitHub
-                </a>
+              <a href={linkedinProfile} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-sm">
+                <i className="bi bi-linkedin me-2"></i>LinkedIn
+              </a>
+              <a href={githubProfile} target="_blank" rel="noopener noreferrer" className="btn btn-dark btn-sm">
+                <i className="bi bi-github me-2"></i>GitHub
+              </a>
             </div>
           </div>
         </div>
@@ -46,4 +55,5 @@ const ProfileCard = ({ name, email, bio, phone, website, imageUrl }) => {
     </div>
   );
 };
+
 export default ProfileCard;
